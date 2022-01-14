@@ -10,15 +10,19 @@ import com.databits3883.databitslib.swerveControl.SwerveModule;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkMaxLimitSwitch;
+import com.revrobotics.SparkMaxRelativeEncoder;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.SparkMaxLimitSwitch.Type;
 
 import edu.wpi.first.math.Pair;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.util.sendable.SendableRegistry;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.RobotState;
@@ -37,7 +41,10 @@ public class Drivetrain extends SubsystemBase {
   SwerveModule[] modules = new SwerveModule[4];
   CANSparkMax[] rotationMotors = new CANSparkMax[4];
 
+
   static final double[] switchLocations = {-4.122, -2.54,-1.03,0.598};
+
+  static SwerveDriveOdometry m_odometry;
 
   /** Creates a new Drivetrain. */
   public Drivetrain() {
@@ -53,6 +60,8 @@ public class Drivetrain extends SubsystemBase {
     m_gyro = new AHRS(I2C.Port.kMXP);
     addChild("Gyro", m_gyro);
     SendableRegistry.addLW(this, "drivetrain");
+
+    m_odometry = new SwerveDriveOdometry(m_drive.getKinematics(), Rotation2d.fromDegrees(m_gyro.getAngle()));
   }
 
   SwerveModule newModule(int velChannel, int angleChannel, String name){
@@ -98,10 +107,21 @@ public class Drivetrain extends SubsystemBase {
 
   public void resetGyro(){
     m_gyro.reset();
+    m_odometry.resetPosition(getOdometryPose(), new Rotation2d());
+  }
+
+  public void resetOdometry(Pose2d startPosition){
+    m_odometry.resetPosition(startPosition, Rotation2d.fromDegrees(m_gyro.getAngle()));
+  }
+
+  public Pose2d getOdometryPose(){
+    return m_odometry.getPoseMeters();
   }
 
   @Override
   public void periodic() {
+    m_odometry.update(Rotation2d.fromDegrees(m_gyro.getAngle()), m_drive.measureCurrentState());
+    
     // This method will be called once per scheduler run
     if(RobotState.isDisabled()){
       for(int i=0;i<4;i++){
@@ -112,5 +132,12 @@ public class Drivetrain extends SubsystemBase {
         }
       }
     }
+  }
+
+  @Override
+  public void initSendable(SendableBuilder builder){
+    super.initSendable(builder);
+    builder.addDoubleProperty("X position", ()->m_odometry.getPoseMeters().getX(), (x)->{return;});
+    builder.addDoubleProperty("Y position", ()->m_odometry.getPoseMeters().getY(), (y)->{return;});
   }
 }
