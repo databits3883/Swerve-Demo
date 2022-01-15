@@ -18,7 +18,7 @@ public final class Constants {
     public static final double driveTrackLength = 0.73;
 
     public static final double rotateWheelGear = 1.0;
-    public static final double velocityWheelGear = 1.0/8.16;//6.86
+    public static final double velocityWheelGear = 1.0/6.86;//1.0/8.16;//6.86
     public static final double wheelCircumfrence = Math.PI * 4*2.54 *0.01;
 
 

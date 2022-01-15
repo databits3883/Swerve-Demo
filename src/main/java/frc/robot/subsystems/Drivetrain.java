@@ -76,10 +76,10 @@ public class Drivetrain extends SubsystemBase {
     rotC.setSetpoint(0);
     rotC.setSetpoint(rotC.getSignal());
     SparkMaxPIDController velC = SparkMaxPIDController.withDefaultEncoder(vel, ControlType.kVelocity);
-    velC.setP(0.25);
+    velC.setP(0.22);
     velC.setI(0);
-    velC.setD(1.0);
-    velC.setFF(0.27);
+    velC.setD(1.2);
+    velC.setFF(0.23);
     SwerveModule module = new SwerveModule(velC,rotC);
     addChild(name+" rotation", rotC);
     addChild(name+" velocity", velC);

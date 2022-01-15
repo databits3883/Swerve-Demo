@@ -50,7 +50,7 @@ public class RobotContainer {
     }
   }; 
 
-  private final Trigger setButton = new JoystickButton(m_stick, 2).whileActiveOnce(new InstantCommand(m_drivetrain::resetGyro,m_drivetrain));
+  private final Trigger setButton = new JoystickButton(m_stick, 2).whileActiveOnce(new InstantCommand(m_drivetrain::resetGyro,m_drivetrain)).whenInactive(m_manualDrive);
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
