@@ -81,8 +81,8 @@ public class Drivetrain extends SubsystemBase {
     velC.setD(1.2);
     velC.setFF(0.23);
     SwerveModule module = new SwerveModule(velC,rotC);
-    addChild(name+" rotation", rotC);
-    addChild(name+" velocity", velC);
+    //addChild(name+" rotation", rotC);
+    //addChild(name+" velocity", velC);
     module.setAngleConversionFactor(rotateWheelGear);
     module.setVelocityConversionFactor(velocityWheelGear * wheelCircumfrence * (1.0/60.0));
  
