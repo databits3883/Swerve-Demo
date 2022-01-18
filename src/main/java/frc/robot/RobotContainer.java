@@ -40,7 +40,7 @@ public class RobotContainer {
     public void execute(){
 
       commandSpeeds.vxMetersPerSecond = -2*m_stick.getY();
-      commandSpeeds.vyMetersPerSecond = -2*m_stick.getX();
+      commandSpeeds.vyMetersPerSecond = 2*m_stick.getX();
       commandSpeeds.omegaRadiansPerSecond = 3*m_stick.getTwist();
       //m_drivetrain.setSpeed(speeds);
       m_drivetrain.setSpeedGyroRelative(commandSpeeds);
