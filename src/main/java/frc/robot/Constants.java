@@ -4,6 +4,13 @@
 
 package frc.robot;
 
+import java.util.List;
+
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.constraint.CentripetalAccelerationConstraint;
+import edu.wpi.first.math.trajectory.constraint.SwerveDriveKinematicsConstraint;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -20,6 +27,8 @@ public final class Constants {
     public static final double rotateWheelGear = 1.0;
     public static final double velocityWheelGear = 1.0/6.86;//1.0/8.16;//6.86
     public static final double wheelCircumfrence = Math.PI * 4*2.54 *0.01;
+
+
 
 
 }
