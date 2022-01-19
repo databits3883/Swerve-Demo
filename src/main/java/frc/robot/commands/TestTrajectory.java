@@ -27,12 +27,11 @@ public class TestTrajectory extends TrajectoryFollowBase {
   public TestTrajectory(Drivetrain drivetrain) {
     super(TrajectoryGenerator.generateTrajectory(
       List.of(new Pose2d(0,0, Rotation2d.fromDegrees(0)),
-      new Pose2d(1,0, Rotation2d.fromDegrees(0)),
-      new Pose2d(1,-1,Rotation2d.fromDegrees(0)),
-      new Pose2d(0,-1,Rotation2d.fromDegrees(0))),
+      new Pose2d(2,0, Rotation2d.fromDegrees(0)),
+      new Pose2d(0,-2,Rotation2d.fromDegrees(90))),
       
       new TrajectoryConfig(2.5, 1.8 ).addConstraints(List.of(new SwerveDriveKinematicsConstraint(drivetrain.getKinematics()
-      , 4.5), new CentripetalAccelerationConstraint(1.9)))
+      , 4.5)))
       ), drivetrain);
     //TODO Auto-generated constructor stub
     m_drivetrain = drivetrain;
