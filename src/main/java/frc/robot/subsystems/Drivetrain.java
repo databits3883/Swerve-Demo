@@ -29,6 +29,7 @@ import edu.wpi.first.util.sendable.SendableRegistry;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 import static frc.robot.Constants.*;
 
@@ -93,9 +94,17 @@ public class Drivetrain extends SubsystemBase {
 
     return module;
   }
+  public void setChassisSpeedAroundPoint(ChassisSpeeds target, SwerveDriveKinematics kinematics){
+    SwerveModuleState[] states = kinematics.toSwerveModuleStates(target, new Translation2d(Constants.driveTrackLength,0));
+    setModuleStates(states);
+}
 
   public void setSpeed(ChassisSpeeds speeds){
     m_drive.setChassisSpeed(speeds);
+  }
+
+  public void setSpeedAroundPoint(ChassisSpeeds speeds){
+    setChassisSpeedAroundPoint(speeds, getKinematics());
   }
 
   public void setModuleStates(SwerveModuleState[] states){

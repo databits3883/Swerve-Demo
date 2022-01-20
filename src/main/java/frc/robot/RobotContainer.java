@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.HIDType;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.NonCenteredSpinTrajectory;
 import frc.robot.commands.TestTrajectory;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
@@ -44,7 +45,8 @@ public class RobotContainer {
       commandSpeeds.vyMetersPerSecond = 2*m_stick.getX();
       commandSpeeds.omegaRadiansPerSecond = 3*m_stick.getTwist();
       //m_drivetrain.setSpeed(speeds);
-      m_drivetrain.setSpeedGyroRelative(commandSpeeds);
+      //m_drivetrain.setSpeedGyroRelative(commandSpeeds);
+      m_drivetrain.setSpeedAroundPoint(commandSpeeds);
     }
 
     @Override
@@ -60,6 +62,10 @@ public class RobotContainer {
   }; 
 
   private final Command m_testTrajectory = new TestTrajectory(m_drivetrain);
+  private final Command m_NonCenteredSpinTrajectory = new NonCenteredSpinTrajectory(m_drivetrain);
+
+  
+
 
   private final Trigger setButton = new JoystickButton(m_stick, 2).whileActiveOnce(new InstantCommand(()->{
     m_drivetrain.resetOdometry(new Pose2d());
@@ -94,6 +100,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_testTrajectory;
+    return m_NonCenteredSpinTrajectory;
   }
 }
